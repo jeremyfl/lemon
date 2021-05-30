@@ -2,17 +2,18 @@ package repository
 
 import (
 	"customer/domain/model"
+	"customer/internal"
 	"golang.org/x/net/context"
 	"log"
 )
 
-// CustomerRepository is the repository structure
-type CustomerRepository struct {
+// CustomerRepositoryImpl is the repository structure
+type CustomerRepositoryImpl struct {
 	Ctx context.Context
-	DB  Database
+	DB  internal.Database
 }
 
-func (cr CustomerRepository) Get() *[]model.Customer {
+func (cr CustomerRepositoryImpl) Get() *[]model.Customer {
 	var customers []model.Customer
 
 	if err := cr.DB.Select(&customers); err != nil {
@@ -22,12 +23,12 @@ func (cr CustomerRepository) Get() *[]model.Customer {
 	return &customers
 }
 
-func (cr CustomerRepository) Insert(customer *model.Customer) error {
+func (cr CustomerRepositoryImpl) Insert(customer *model.Customer) error {
 	_, err := cr.DB.Insert(customer)
 	return err
 }
 
-func (cr CustomerRepository) Show() *model.Customer {
+func (cr CustomerRepositoryImpl) Show() *model.Customer {
 	return &model.Customer{
 		FirstName: "",
 		LastName:  "",
@@ -36,6 +37,6 @@ func (cr CustomerRepository) Show() *model.Customer {
 	}
 }
 
-func (cr CustomerRepository) Delete() bool {
+func (cr CustomerRepositoryImpl) Delete() bool {
 	return false
 }

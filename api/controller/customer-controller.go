@@ -8,7 +8,7 @@ import (
 )
 
 type CustomerController struct {
-	Service domain.ICustomerService
+	Service domain.CustomerService
 }
 
 func (cc CustomerController) Get(c *fiber.Ctx) error {

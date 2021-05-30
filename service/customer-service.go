@@ -5,18 +5,14 @@ import (
 	"customer/domain/model"
 )
 
-type CustomerService struct {
-	Repository domain.ICustomerRepository
+type CustomerServiceImpl struct {
+	Repository domain.CustomerRepository
 }
 
-func (cs CustomerService) AuthenticateUser() bool {
-	return false
-}
-
-func (cs CustomerService) FetchCustomer() *[]model.Customer {
+func (cs CustomerServiceImpl) FetchCustomer() *[]model.Customer {
 	return cs.Repository.Get()
 }
 
-func (cs CustomerService) SaveCustomer(customer *model.Customer) error {
+func (cs CustomerServiceImpl) SaveCustomer(customer *model.Customer) error {
 	return cs.Repository.Insert(customer)
 }

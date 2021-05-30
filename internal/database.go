@@ -1,13 +1,12 @@
-package repository
+package internal
 
 import (
 	"github.com/naoina/genmai"
-	_ "gocloud.dev/docstore/memdocstore"
 	"log"
 )
 
-// Database is the high level function
-// contains basic of ORM API
+// Database is the high level function contains basic of ORM API
+// Following D of SOLID principles
 type Database interface {
 	Select(output interface{}, args ...interface{}) (err error)
 	Insert(obj interface{}) (affected int64, err error)
@@ -16,6 +15,8 @@ type Database interface {
 	Close() error
 }
 
+// DatabaseMemImpl implement Database interface
+// is the low level - detail class
 type DatabaseMemImpl struct {
 	Client *genmai.DB
 }
@@ -37,6 +38,8 @@ func (dbm DatabaseMemImpl) Select(output interface{}, args ...interface{}) (err 
 }
 
 func (dbm DatabaseMemImpl) Insert(obj interface{}) (affected int64, err error) {
+	log.Println("Inserting the data ", obj)
+
 	return dbm.Client.Insert(obj)
 }
 

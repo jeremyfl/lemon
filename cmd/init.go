@@ -3,15 +3,17 @@ package cmd
 import (
 	"context"
 	"customer/api/controller"
+	"customer/domain"
 	"customer/domain/model"
+	"customer/internal"
 	"customer/repository"
 	"customer/service"
 	"log"
 )
 
 // initDatabase initialize the database repository
-func initDatabase() repository.Database {
-	db, err := repository.NewMemDatabaseImpl()
+func initDatabase() internal.Database {
+	db, err := internal.NewMemDatabaseImpl()
 	if err != nil {
 		panic("Error when creating new database instances")
 	}
@@ -24,13 +26,22 @@ func initDatabase() repository.Database {
 	return db
 }
 
-// initEntities initialize the database entities
-func initEntities(db repository.Database) *controller.Controller {
-	customerRepo := repository.CustomerRepository{
+// initRepo initialize the repository
+func initRepo(db internal.Database) domain.CustomerRepository {
+	return repository.CustomerRepositoryImpl{
 		Ctx: context.Background(),
 		DB:  db,
 	}
-	customerService := service.CustomerService{Repository: customerRepo}
+}
+
+func initService(repo domain.CustomerRepository) domain.CustomerService {
+	return service.CustomerServiceImpl{Repository: repo}
+}
+
+// initEntities initialize the database entities
+func initEntities(db internal.Database) *controller.Controller {
+	customerRepo := initRepo(db)
+	customerService := initService(customerRepo)
 	customerController := &controller.CustomerController{Service: customerService}
 
 	return &controller.Controller{
