@@ -8,11 +8,13 @@ import (
 	"testing"
 )
 
-var customerRepository = mocks.CustomerRepository{Mock: mock.Mock{}}
-var customerService = CustomerServiceImpl{Repository: &customerRepository}
+var (
+	customerRepository = mocks.CustomerRepository{Mock: mock.Mock{}}
+	customerService    = CustomerServiceImpl{Repository: &customerRepository}
+)
 
 func TestCustomerServiceImpl_FetchCustomer(t *testing.T) {
-	expectedCustomer := []model.Customer{
+	expectedResult := &[]model.Customer{
 		{
 			ID:        1,
 			FirstName: "Jeremiah",
@@ -29,12 +31,25 @@ func TestCustomerServiceImpl_FetchCustomer(t *testing.T) {
 		},
 	}
 
-	customerRepository.Mock.On("Get").Return(expectedCustomer)
+	customerRepository.Mock.On("Get").Return(expectedResult)
 	result := customerService.FetchCustomer()
 
 	assert.NotNil(t, *result)
-	assert.Equal(t, expectedCustomer, *result)
+	assert.Equal(t, *expectedResult, *result)
 }
 
 func TestCustomerServiceImpl_SaveCustomer(t *testing.T) {
+	payload := &model.Customer{
+		ID:        1,
+		FirstName: "Jeremiah",
+		LastName:  "Ferdinand",
+		Password:  "123",
+		Age:       26,
+	}
+
+	customerRepository.Mock.On("Insert", payload).Return(nil)
+
+	result := customerService.SaveCustomer(payload)
+
+	assert.Nil(t, result)
 }
