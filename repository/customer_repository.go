@@ -1,8 +1,8 @@
 package repository
 
 import (
+	"customer/domain"
 	"customer/domain/model"
-	"customer/internal"
 	"golang.org/x/net/context"
 	"log"
 )
@@ -10,7 +10,7 @@ import (
 // CustomerRepositoryImpl is the repository structure
 type CustomerRepositoryImpl struct {
 	Ctx context.Context
-	DB  internal.Database
+	DB  domain.Database
 }
 
 func (cr CustomerRepositoryImpl) Get() *[]model.Customer {

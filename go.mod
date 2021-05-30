@@ -11,6 +11,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.7
 	github.com/naoina/genmai v0.0.0-20170715140901-78583835e1e4
 	github.com/naoina/go-stringutil v0.1.0 // indirect
+	github.com/stretchr/testify v1.7.0
 	github.com/valyala/fasthttp v1.24.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/net v0.0.0-20210510120150-4163338589ed
