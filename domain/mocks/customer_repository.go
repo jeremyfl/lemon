@@ -58,12 +58,18 @@ func (_m *CustomerRepository) Insert(customer *model.Customer) error {
 }
 
 // Show provides a mock function with given fields: query
-func (_m *CustomerRepository) Show(query map[string]interface{}) (*model.Customer, error) {
-	ret := _m.Called(query)
+func (_m *CustomerRepository) Show(query ...map[string]interface{}) (*model.Customer, error) {
+	_va := make([]interface{}, len(query))
+	for _i := range query {
+		_va[_i] = query[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
 
 	var r0 *model.Customer
-	if rf, ok := ret.Get(0).(func(map[string]interface{}) *model.Customer); ok {
-		r0 = rf(query)
+	if rf, ok := ret.Get(0).(func(...map[string]interface{}) *model.Customer); ok {
+		r0 = rf(query...)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.Customer)
@@ -71,8 +77,8 @@ func (_m *CustomerRepository) Show(query map[string]interface{}) (*model.Custome
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(map[string]interface{}) error); ok {
-		r1 = rf(query)
+	if rf, ok := ret.Get(1).(func(...map[string]interface{}) error); ok {
+		r1 = rf(query...)
 	} else {
 		r1 = ret.Error(1)
 	}

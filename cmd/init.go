@@ -34,17 +34,23 @@ func initRepo(db internal.Database) domain.CustomerRepository {
 	}
 }
 
-func initService(repo domain.CustomerRepository) domain.CustomerService {
-	return service.CustomerServiceImpl{Repository: repo}
+func initService(repo domain.CustomerRepository) domain.Services {
+	return domain.Services{
+		AuthService:     service.AuthServiceImpl{Repository: repo},
+		CustomerService: service.CustomerServiceImpl{Repository: repo},
+	}
 }
 
 // initEntities initialize the database entities
 func initEntities(db internal.Database) *controller.Controller {
 	customerRepo := initRepo(db)
 	customerService := initService(customerRepo)
-	customerController := &controller.CustomerController{Service: customerService}
+
+	customerController := &controller.CustomerController{Service: customerService.CustomerService}
+	authController := &controller.AuthController{Service: customerService.AuthService}
 
 	return &controller.Controller{
 		CustomerController: customerController,
+		AuthController:     authController,
 	}
 }

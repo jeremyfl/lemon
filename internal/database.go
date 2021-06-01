@@ -38,7 +38,13 @@ func NewMemDatabaseImpl() (Database, error) {
 
 func (dbm DatabaseMemImpl) Select(output interface{}, args ...map[string]interface{}) (err error) {
 	if args != nil {
-		return dbm.Client.Select(output, dbm.Client.Where(args[0]["column"], args[0]["separator"], args[0]["value"]))
+		query := dbm.Client.Where("email").IsNotNull()
+
+		for i, _ := range args {
+			query = query.And(args[i]["column"], args[i]["separator"], args[i]["value"])
+		}
+
+		return dbm.Client.Select(output, query)
 	}
 
 	return dbm.Client.Select(output)

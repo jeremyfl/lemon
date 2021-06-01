@@ -28,10 +28,10 @@ func (cr CustomerRepositoryImpl) Insert(customer *model.Customer) error {
 	return err
 }
 
-func (cr CustomerRepositoryImpl) Show(query map[string]interface{}) (*model.Customer, error) {
+func (cr CustomerRepositoryImpl) Show(query ...map[string]interface{}) (*model.Customer, error) {
 	var customer []model.Customer
 
-	if err := cr.DB.Select(&customer, query); err != nil {
+	if err := cr.DB.Select(&customer, query...); err != nil {
 		log.Println("Error when selecting", err.Error())
 
 		return nil, err

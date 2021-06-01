@@ -3,6 +3,7 @@ package service
 import (
 	"customer/domain"
 	"customer/domain/model"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type CustomerServiceImpl struct {
@@ -26,5 +27,12 @@ func (cs CustomerServiceImpl) ShowCustomer(id int) *model.Customer {
 }
 
 func (cs CustomerServiceImpl) SaveCustomer(customer *model.Customer) error {
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(customer.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	hashedPassword := string(hashPassword)
+	customer.Password = hashedPassword
+
 	return cs.Repository.Insert(customer)
 }
