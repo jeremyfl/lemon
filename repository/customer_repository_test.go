@@ -6,6 +6,7 @@ import (
 	"customer/internal/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
 	"testing"
 )
 
@@ -47,5 +48,32 @@ func TestCustomerRepositoryImpl_Insert(t *testing.T) {
 }
 
 func TestCustomerRepositoryImpl_Show(t *testing.T) {
+	customers := []model.Customer{
+		{
+			ID:        1,
+			FirstName: "Jeremiah",
+			LastName:  "Ferdinand",
+			Password:  "123",
+			Age:       26,
+		},
+		{
+			ID:        2,
+			FirstName: "Ben",
+			LastName:  "Chill",
+			Password:  "123",
+			Age:       26,
+		},
+	}
 
+	query := map[string]interface{}{
+		"column":    "tbl_id",
+		"separator": "=",
+		"value":     1,
+	}
+
+	mockDb.Mock.On("Select", &customers, query).Return(&customers)
+
+	result, _ := customerRepository.Show(query)
+
+	assert.Equal(t, result, &model.Customer{})
 }

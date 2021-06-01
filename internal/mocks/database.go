@@ -59,14 +59,18 @@ func (_m *Database) Insert(obj interface{}) (int64, error) {
 }
 
 // Select provides a mock function with given fields: output, args
-func (_m *Database) Select(output interface{}, args ...interface{}) error {
+func (_m *Database) Select(output interface{}, args ...map[string]interface{}) error {
+	_va := make([]interface{}, len(args))
+	for _i := range args {
+		_va[_i] = args[_i]
+	}
 	var _ca []interface{}
 	_ca = append(_ca, output)
-	_ca = append(_ca, args...)
+	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(interface{}, ...interface{}) error); ok {
+	if rf, ok := ret.Get(0).(func(interface{}, ...map[string]interface{}) error); ok {
 		r0 = rf(output, args...)
 	} else {
 		r0 = ret.Error(0)

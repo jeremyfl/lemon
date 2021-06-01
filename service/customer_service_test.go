@@ -53,3 +53,26 @@ func TestCustomerServiceImpl_SaveCustomer(t *testing.T) {
 
 	assert.Nil(t, result)
 }
+
+func TestCustomerServiceImpl_ShowCustomer(t *testing.T) {
+	expectedResult := &model.Customer{
+		ID:        1,
+		FirstName: "Jeremiah",
+		LastName:  "Ferdinand",
+		Password:  "123",
+		Age:       26,
+	}
+
+	query := map[string]interface{}{
+		"column":    "tbl_id",
+		"separator": "=",
+		"value":     1,
+	}
+
+	customerRepository.Mock.On("Show", query).Return(expectedResult, nil)
+
+	result := customerService.ShowCustomer(1)
+
+	assert.NotNil(t, *result)
+	assert.Equal(t, *expectedResult, *result)
+}

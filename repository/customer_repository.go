@@ -28,13 +28,18 @@ func (cr CustomerRepositoryImpl) Insert(customer *model.Customer) error {
 	return err
 }
 
-func (cr CustomerRepositoryImpl) Show() *model.Customer {
-	return &model.Customer{
-		FirstName: "",
-		LastName:  "",
-		Password:  "",
-		Age:       0,
+func (cr CustomerRepositoryImpl) Show(query map[string]interface{}) (*model.Customer, error) {
+	var customer []model.Customer
+
+	if err := cr.DB.Select(&customer, query); err != nil {
+		log.Println("Error when selecting", err.Error())
+
+		return nil, err
+	} else if len(customer) == 0 {
+		return &model.Customer{}, nil
 	}
+
+	return &customer[0], nil
 }
 
 func (cr CustomerRepositoryImpl) Delete() bool {

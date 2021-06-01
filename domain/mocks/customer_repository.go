@@ -57,18 +57,25 @@ func (_m *CustomerRepository) Insert(customer *model.Customer) error {
 	return r0
 }
 
-// Show provides a mock function with given fields:
-func (_m *CustomerRepository) Show() *model.Customer {
-	ret := _m.Called()
+// Show provides a mock function with given fields: query
+func (_m *CustomerRepository) Show(query map[string]interface{}) (*model.Customer, error) {
+	ret := _m.Called(query)
 
 	var r0 *model.Customer
-	if rf, ok := ret.Get(0).(func() *model.Customer); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(map[string]interface{}) *model.Customer); ok {
+		r0 = rf(query)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*model.Customer)
 		}
 	}
 
-	return r0
+	var r1 error
+	if rf, ok := ret.Get(1).(func(map[string]interface{}) error); ok {
+		r1 = rf(query)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }

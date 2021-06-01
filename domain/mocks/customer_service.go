@@ -42,3 +42,19 @@ func (_m *CustomerService) SaveCustomer(customer *model.Customer) error {
 
 	return r0
 }
+
+// ShowCustomer provides a mock function with given fields: id
+func (_m *CustomerService) ShowCustomer(id int) *model.Customer {
+	ret := _m.Called(id)
+
+	var r0 *model.Customer
+	if rf, ok := ret.Get(0).(func(int) *model.Customer); ok {
+		r0 = rf(id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*model.Customer)
+		}
+	}
+
+	return r0
+}
