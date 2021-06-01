@@ -48,22 +48,7 @@ func TestCustomerRepositoryImpl_Insert(t *testing.T) {
 }
 
 func TestCustomerRepositoryImpl_Show(t *testing.T) {
-	customers := []model.Customer{
-		{
-			ID:        1,
-			FirstName: "Jeremiah",
-			LastName:  "Ferdinand",
-			Password:  "123",
-			Age:       26,
-		},
-		{
-			ID:        2,
-			FirstName: "Ben",
-			LastName:  "Chill",
-			Password:  "123",
-			Age:       26,
-		},
-	}
+	var cs []model.Customer
 
 	query := map[string]interface{}{
 		"column":    "tbl_id",
@@ -71,10 +56,9 @@ func TestCustomerRepositoryImpl_Show(t *testing.T) {
 		"value":     1,
 	}
 
-	mockDb.Mock.On("Select", &customers, query).Return(nil)
+	mockDb.Mock.On("Select", &cs, query).Return(nil)
 
 	result, _ := customerRepository.Show(query)
 
-	assert.Nil(t, *result)
-	//assert.Equal(t, result, &model.Customer{})
+	assert.NotNil(t, result)
 }
