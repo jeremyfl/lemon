@@ -71,9 +71,10 @@ func TestCustomerRepositoryImpl_Show(t *testing.T) {
 		"value":     1,
 	}
 
-	mockDb.Mock.On("Select", &customers, query).Return(&customers)
+	mockDb.Mock.On("Select", &customers, query).Return(nil)
 
 	result, _ := customerRepository.Show(query)
 
-	assert.Equal(t, result, &model.Customer{})
+	assert.Nil(t, *result)
+	//assert.Equal(t, result, &model.Customer{})
 }
