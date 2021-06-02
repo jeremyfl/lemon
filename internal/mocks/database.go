@@ -37,6 +37,27 @@ func (_m *Database) CreateTable(table interface{}) error {
 	return r0
 }
 
+// Delete provides a mock function with given fields: obj
+func (_m *Database) Delete(obj interface{}) (int64, error) {
+	ret := _m.Called(obj)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(interface{}) int64); ok {
+		r0 = rf(obj)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(interface{}) error); ok {
+		r1 = rf(obj)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Insert provides a mock function with given fields: obj
 func (_m *Database) Insert(obj interface{}) (int64, error) {
 	ret := _m.Called(obj)
@@ -77,4 +98,25 @@ func (_m *Database) Select(output interface{}, args ...map[string]interface{}) e
 	}
 
 	return r0
+}
+
+// Update provides a mock function with given fields: obj
+func (_m *Database) Update(obj interface{}) (int64, error) {
+	ret := _m.Called(obj)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(interface{}) int64); ok {
+		r0 = rf(obj)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(interface{}) error); ok {
+		r1 = rf(obj)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }

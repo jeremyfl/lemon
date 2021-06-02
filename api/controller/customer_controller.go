@@ -47,3 +47,32 @@ func (cc CustomerController) Show(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(helper.GenerateResponse(200, "", customer))
 }
+
+func (cc CustomerController) Update(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+
+	payload := new(model.Customer)
+	if err := c.BodyParser(payload); err != nil {
+
+		return c.Status(500).JSON(helper.GenerateResponse(500, "Error when parsing the request", nil))
+	}
+
+	if err := cc.Service.UpdateCustomer(payload, int64(id)); err != nil {
+
+		log.Println("Error when inserting data to the repo", err)
+
+		return c.Status(500).JSON(helper.GenerateResponse(500, "Error when inserting data to the repo", nil))
+	}
+
+	return c.Status(201).JSON(helper.GenerateResponse(201, "Data created", payload))
+}
+
+func (cc CustomerController) Delete(c *fiber.Ctx) error {
+	id, _ := strconv.Atoi(c.Params("id"))
+
+	if err := cc.Service.DeleteCustomer(int64(id)); err != nil {
+		return c.Status(500).JSON(helper.GenerateResponse(500, "Error when deleting data to the services", nil))
+	}
+
+	return c.Status(200).JSON(helper.GenerateResponse(200, "Customer deleted", nil))
+}

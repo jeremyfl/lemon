@@ -13,15 +13,15 @@ type CustomerRepository struct {
 	mock.Mock
 }
 
-// Delete provides a mock function with given fields:
-func (_m *CustomerRepository) Delete() bool {
-	ret := _m.Called()
+// Delete provides a mock function with given fields: customer
+func (_m *CustomerRepository) Delete(customer *model.Customer) error {
+	ret := _m.Called(customer)
 
-	var r0 bool
-	if rf, ok := ret.Get(0).(func() bool); ok {
-		r0 = rf()
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*model.Customer) error); ok {
+		r0 = rf(customer)
 	} else {
-		r0 = ret.Get(0).(bool)
+		r0 = ret.Error(0)
 	}
 
 	return r0
@@ -84,4 +84,18 @@ func (_m *CustomerRepository) Show(query ...map[string]interface{}) (*model.Cust
 	}
 
 	return r0, r1
+}
+
+// Update provides a mock function with given fields: customer
+func (_m *CustomerRepository) Update(customer *model.Customer) error {
+	ret := _m.Called(customer)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*model.Customer) error); ok {
+		r0 = rf(customer)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }

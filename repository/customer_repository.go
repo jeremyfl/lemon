@@ -42,6 +42,13 @@ func (cr CustomerRepositoryImpl) Show(query ...map[string]interface{}) (*model.C
 	return &customer[0], nil
 }
 
-func (cr CustomerRepositoryImpl) Delete() bool {
-	return false
+func (cr CustomerRepositoryImpl) Update(customer *model.Customer) error {
+	_, err := cr.DB.Update(customer)
+	return err
+}
+
+func (cr CustomerRepositoryImpl) Delete(customer *model.Customer) error {
+	_, err := cr.DB.Delete(customer)
+
+	return err
 }

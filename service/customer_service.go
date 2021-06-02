@@ -36,3 +36,31 @@ func (cs CustomerServiceImpl) SaveCustomer(customer *model.Customer) error {
 
 	return cs.Repository.Insert(customer)
 }
+
+func (cs CustomerServiceImpl) UpdateCustomer(customer *model.Customer, id int64) error {
+
+	query := map[string]interface{}{
+		"column":    "tbl_id",
+		"separator": "=",
+		"value":     id,
+	}
+
+	csFound, _ := cs.Repository.Show(query)
+
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(customer.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	hashedPassword := string(hashPassword)
+	customer.Password = hashedPassword
+
+	return cs.Repository.Update(csFound)
+}
+
+func (cs CustomerServiceImpl) DeleteCustomer(id int64) error {
+	customer := model.Customer{
+		ID: id,
+	}
+
+	return cs.Repository.Delete(&customer)
+}
